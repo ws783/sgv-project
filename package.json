@@ -1,0 +1,11 @@
+{
+  "name": "gitty",
+  "version": "1.0.0",
+  "description": "project in node",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
