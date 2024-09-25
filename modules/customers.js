@@ -16,9 +16,19 @@ const existcustomerName = async (customerName) => {
     }
 }
 
+const getCustomerByName = async (customerName) => {
+    mongoOperations.Collection = process.env.MONGO_USERS_COLLECTION;
+    try {
+        const response = await mongoOperations.find({ filter: { customerName: customerName } })
+        return response
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 const createCustomer = async (customer) => {
 
-    //TODO:check user object
  
     console.log(customer.customerName);
     if (await existcustomerName(customer.customerName)) {
