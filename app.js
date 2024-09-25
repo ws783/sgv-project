@@ -1,6 +1,6 @@
 const customer_router = require('./routers/customer')
 const expense_router = require('./routers/expenses')
-const receipt_router = require('./routers/expenses')
+const receipt_router = require('./routers/Receipts')
 
 const express=require('express')
 const app = express();

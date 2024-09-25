@@ -7,6 +7,7 @@ const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
 
 
 
+
 const getExpenseBetweenTwoDates = async (starDate,endDate) => {
     mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
     try {
@@ -19,7 +20,7 @@ const getExpenseBetweenTwoDates = async (starDate,endDate) => {
     }
 }
 
-const getExpenseByMounth = async (month) => {
+const getExpenseByMonth = async (month) => {
     mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
     try {
         const filter={
@@ -48,19 +49,28 @@ const getExpenseByYear = async (year) => {
         throw error;
     }
 }
-const createExpense = async (expense) => {
+
+const createExpenses = async (customer) => {
+    
+    if (await existcustomerName(customer.customerName)) {
+        const error = {
+            massege: (`customerName '${customer.customerName}' is not valid`),
+            type: errorTypes.VALIDATION
+        }
+        throw error
+    }
     const id = v4();
-    expense.id = id
+    customer.id = id
 
     try {
         mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
-        const response = await mongoOperations.insertItem(expense)
-        console.log({ response })
-        return expense;
+        const response = await mongoOperations.insertItem(customer)
+        return customer;
     }
     catch (error) {
         throw error
     }
 }
 
-module.exports={getExpenseBetweenTwoDates,createExpense,getExpenseByMounth,getExpenseByYear}
+module.exports={getExpenseBetweenTwoDates,createExpenses,getExpenseByMonth,getExpenseByYear}
+

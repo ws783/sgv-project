@@ -2,7 +2,7 @@ require('dotenv').config()
 const { v4 } = require('uuid')
 const { MongoOperations } = require('../services/mongo/mongo-operations')
 const { errorTypes } = require('../utiles/types')
-const {MONGO_CUSTOMER_COLLECTION,MONGO_ACCOUNTANCY_DB}=process.env
+const { MONGO_CUSTOMER_COLLECTION, MONGO_ACCOUNTANCY_DB } = process.env
 const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
 
 
@@ -17,10 +17,10 @@ const existcustomerName = async (customerName) => {
     }
 }
 
-const getCustomerByName = async (customerName) => {
+const getAllCustomer = async (filter) => {
     mongoOperations.Collection = MONGO_CUSTOMER_COLLECTION;
     try {
-        const response = await mongoOperations.find({ filter: { customerName: customerName } })
+        const response = await mongoOperations.find({ filter })
         return response
     }
     catch (error) {
@@ -43,7 +43,6 @@ const createCustomer = async (customer) => {
     try {
         mongoOperations.Collection = MONGO_CUSTOMER_COLLECTION;
         const response = await mongoOperations.insertItem(customer)
-        console.log({ response })
         return customer;
     }
     catch (error) {
@@ -54,5 +53,8 @@ const createCustomer = async (customer) => {
 
 
 module.exports = {
-    existcustomerName, createCustomer,getCustomerByName
+    existcustomerName, createCustomer, getAllCustomer
 }
+
+
+
