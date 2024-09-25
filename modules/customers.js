@@ -1,12 +1,15 @@
 require('dotenv').config()
 const { v4 } = require('uuid')
 const { MongoOperations } = require('../services/mongo/mongo-operations')
-const { errorTypes } = require('../utiles/types')
-const mongoOperations = new MongoOperations(process.env.MONGO_USERS_DB)
+const { errorTypes } = require('../utils/types')
+const {MONGO_ACCOUNTANCY_DB,MONGO_CUSTOMER_COLLECTION}=process.env
+
+const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
+
 
 
 const existcustomerName = async (customerName) => {
-    mongoOperations.Collection = process.env.MONGO_USERS_COLLECTION;
+    mongoOperations.Collection =MONGO_CUSTOMER_COLLECTION;
     try {
         const response = await mongoOperations.find({ filter: { customerName: customerName } })
         return response.length > 0
@@ -16,10 +19,10 @@ const existcustomerName = async (customerName) => {
     }
 }
 
-const getCustomerByName = async (customerName) => {
-    mongoOperations.Collection = process.env.MONGO_USERS_COLLECTION;
+const getAllCustomer = async (filter) => {
+    mongoOperations.Collection = MONGO_CUSTOMER_COLLECTION;
     try {
-        const response = await mongoOperations.find({ filter: { customerName: customerName } })
+        const response = await mongoOperations.find({ filter })
         return response
     }
     catch (error) {
@@ -29,8 +32,6 @@ const getCustomerByName = async (customerName) => {
 
 const createCustomer = async (customer) => {
 
- 
-    console.log(customer.customerName);
     if (await existcustomerName(customer.customerName)) {
         const error = {
             massege: (`customerName '${customer.customerName}' is not valid`),
@@ -42,9 +43,8 @@ const createCustomer = async (customer) => {
     customer.id = id
 
     try {
-        mongoOperations.Collection = process.env.MONGO_USERS_COLLECTION;
+        mongoOperations.Collection =MONGO_CUSTOMER_COLLECTION;
         const response = await mongoOperations.insertItem(customer)
-        console.log({ response })
         return customer;
     }
     catch (error) {
@@ -55,12 +55,7 @@ const createCustomer = async (customer) => {
 
 
 module.exports = {
-    existcustomerName, createCustomer
+    existcustomerName, createCustomer,getAllCustomer
 }
 
 
-
-
-
-//לכל לקוח
-//שם  טלפון id מייל
