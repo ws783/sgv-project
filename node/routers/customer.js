@@ -4,8 +4,7 @@ const {checkBodyContainkeys}=require('../utils/middleware')
 const {createCustomer,getAllCustomer}=require('../modules/customer')
 
 router.get('/getallcustomers',async(req, res) => {
-    const {filter}= req.params;
-    const customer=await getAllCustomer(filter)
+    const customer=await getAllCustomer()
     res.status(200).json(customer)
 })
 

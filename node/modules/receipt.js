@@ -2,11 +2,11 @@ require('dotenv').config()
 const { v4 } = require('uuid')
 const { MongoOperations } = require('../services/mongo/mongo-operations')
 const { errorTypes } = require('../utils/types')
-const {MONGO_EXPENSE_COLLECTION,MONGO_ACCOUNTANCY_DB}=process.env
+const {MONGO_RECEPIT_COLLECTION,MONGO_ACCOUNTANCY_DB}=process.env
 const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
 
-const getAllExpenses = async () => {
-    mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+const getAllRecepits = async () => {
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
         const response = await mongoOperations.find({})
         return response
@@ -15,10 +15,21 @@ const getAllExpenses = async () => {
         throw error;
     }
 }
+const getReceipetBycustomer = async (customerName,customerPhone) => {
 
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
+    try {
+        const filter={name:customerName,phone:customerPhone}
+        const response = await mongoOperations.find({ filter })
+        return response
+    }
+    catch (error) {
+        throw error;
+    }
+}
 
-const getExpenseBetweenTwoDates = async (starDate,endDate) => {
-    mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+const getReceiptBetweenTwoDates = async (starDate,endDate) => {
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
         const filter={ date: { $gte: starDate, $lt: endDate } }
         const response = await mongoOperations.find({filter})
@@ -29,8 +40,8 @@ const getExpenseBetweenTwoDates = async (starDate,endDate) => {
     }
 }
 
-const getExpenseByMonth = async (month) => {
-    mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+const getReceiptByMonth = async (month) => {
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
         const filter={
             $expr: {
@@ -43,8 +54,8 @@ const getExpenseByMonth = async (month) => {
         throw error;
     }
 }
-const getExpenseByYear = async (year) => {
-    mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+const getReceiptByYear = async (year) => {
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
         const filter={
             
@@ -58,28 +69,18 @@ const getExpenseByYear = async (year) => {
         throw error;
     }
 }
-
-const createExpenses = async (expense) => {
-    
-    if (await existexpenseName(expense.name)) {
-        const error = {
-            massege: (`expenseName '${expense.name}' is not valid`),
-            type: errorTypes.VALIDATION
-        }
-        throw error
-    }
+const createReceipt = async (receipt) => {
     const id = v4();
-    expense.id = id
+    receipt.id = id
 
     try {
-        mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
-        const response = await mongoOperations.insertItem(expense)
-        return expense;
+        mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
+        const response = await mongoOperations.insertItem(receipt)
+        return response;
     }
     catch (error) {
         throw error
     }
 }
 
-module.exports={getExpenseBetweenTwoDates,createExpenses,getExpenseByMonth,getExpenseByYear,getAllExpenses}
-
+module.exports={getReceiptBetweenTwoDates,getReceiptByMonth,getReceiptByYear,createReceipt,getReceipetBycustomer,getAllRecepits}
