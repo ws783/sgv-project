@@ -1,7 +1,7 @@
 require('dotenv').config()
 const { v4 } = require('uuid')
 const { MongoOperations } = require('../services/mongo/mongo-operations')
-const { errorTypes } = require('../utiles/types')
+const { errorTypes } = require('../utils/types')
 const { MONGO_CUSTOMER_COLLECTION, MONGO_ACCOUNTANCY_DB } = process.env
 const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
 
@@ -9,7 +9,7 @@ const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
 const existcustomerName = async (customerName) => {
     mongoOperations.Collection = MONGO_CUSTOMER_COLLECTION;
     try {
-        const response = await mongoOperations.find({ filter: { customerName: customerName } })
+        const response = await mongoOperations.find({ filter: { name: customerName } })
         return response.length > 0
     }
     catch (error) {
@@ -18,6 +18,7 @@ const existcustomerName = async (customerName) => {
 }
 
 const getAllCustomer = async (filter) => {
+
     mongoOperations.Collection = MONGO_CUSTOMER_COLLECTION;
     try {
         const response = await mongoOperations.find({ filter })
@@ -30,9 +31,9 @@ const getAllCustomer = async (filter) => {
 
 const createCustomer = async (customer) => {
 
-    if (await existcustomerName(customer.customerName)) {
+    if (await existcustomerName(customer.name)) {
         const error = {
-            massege: (`customerName '${customer.customerName}' is not valid`),
+            massege: (`customerName '${customer.name}' is not valid`),
             type: errorTypes.VALIDATION
         }
         throw error
