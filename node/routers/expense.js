@@ -11,7 +11,7 @@ router.get('/getallexpenses',async(req,res)=>{
     res.status(200).json(expenses)
 })
 
-router.get('/findexpences/:starDate/:endDate',async(req, res) => {
+router.get('/getexpences/:starDate/:endDate',async(req, res) => {
     const {starDate}= req.params;
     const {endDate}= req.params;
     const expense=await getExpenseBetweenTwoDates(starDate,endDate)

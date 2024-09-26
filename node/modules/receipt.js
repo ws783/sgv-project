@@ -15,10 +15,11 @@ const getAllRecepits = async () => {
         throw error;
     }
 }
-const getReceipetByrecepit = async (recepitName,recepitPhone) => {
+const getReceipetBycustomer = async (customerName,customerPhone) => {
+
     mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
-        const filter={name:recepitName,phone:recepitPhone}
+        const filter={name:customerName,phone:customerPhone}
         const response = await mongoOperations.find({ filter })
         return response
     }
@@ -28,7 +29,7 @@ const getReceipetByrecepit = async (recepitName,recepitPhone) => {
 }
 
 const getReceiptBetweenTwoDates = async (starDate,endDate) => {
-    mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
         const filter={ date: { $gte: starDate, $lt: endDate } }
         const response = await mongoOperations.find({filter})
@@ -70,17 +71,16 @@ const getReceiptByYear = async (year) => {
 }
 const createReceipt = async (receipt) => {
     const id = v4();
-    expense.id = id
+    receipt.id = id
 
     try {
         mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
         const response = await mongoOperations.insertItem(receipt)
-        console.log({ response })
-        return expense;
+        return response;
     }
     catch (error) {
         throw error
     }
 }
 
-module.exports={getReceiptBetweenTwoDates,getReceiptByMonth,getReceiptByYear,createReceipt,getReceipetByrecepit,getAllRecepits}
+module.exports={getReceiptBetweenTwoDates,getReceiptByMonth,getReceiptByYear,createReceipt,getReceipetBycustomer,getAllRecepits}

@@ -2,7 +2,7 @@ require('dotenv').config()
 const { v4 } = require('uuid')
 const { MongoOperations } = require('../services/mongo/mongo-operations')
 const { errorTypes } = require('../utils/types')
-const {MONGO_EXPENSE_COLLECTION,MONGO_ACCOUNTANCY_DB}=process.env
+const {MONGO_EXPENSE_COLLECTION='expenses',MONGO_ACCOUNTANCY_DB="accountancy"}=process.env
 const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
 
 const getAllExpenses = async () => {
@@ -59,17 +59,8 @@ const getExpenseByYear = async (year) => {
     }
 }
 
-const createExpenses = async (expense) => {
-    
-    if (await existexpenseName(expense.name)) {
-        const error = {
-            massege: (`expenseName '${expense.name}' is not valid`),
-            type: errorTypes.VALIDATION
-        }
-        throw error
-    }
-    const id = v4();
-    expense.id = id
+const createExpense = async (expense) => {
+
 
     try {
         mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
@@ -81,5 +72,5 @@ const createExpenses = async (expense) => {
     }
 }
 
-module.exports={getExpenseBetweenTwoDates,createExpenses,getExpenseByMonth,getExpenseByYear,getAllExpenses}
+module.exports={getExpenseBetweenTwoDates,createExpense,getExpenseByMonth,getExpenseByYear,getAllExpenses}
 
