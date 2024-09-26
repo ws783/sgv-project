@@ -1,9 +1,31 @@
 require('dotenv').config()
 const { v4 } = require('uuid')
 const { MongoOperations } = require('../services/mongo/mongo-operations')
-const { errorTypes } = require('../utiles/types')
-const {MONGO_EXPENSE_COLLECTION,MONGO_ACCOUNTANCY_DB}=process.env
+const { errorTypes } = require('../utils/types')
+const {MONGO_RECEPIT_COLLECTION,MONGO_ACCOUNTANCY_DB}=process.env
 const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
+
+const getAllRecepits = async () => {
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
+    try {
+        const response = await mongoOperations.find({})
+        return response
+    }
+    catch (error) {
+        throw error;
+    }
+}
+const getReceipetByrecepit = async (recepitName,recepitPhone) => {
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
+    try {
+        const filter={name:recepitName,phone:recepitPhone}
+        const response = await mongoOperations.find({ filter })
+        return response
+    }
+    catch (error) {
+        throw error;
+    }
+}
 
 const getReceiptBetweenTwoDates = async (starDate,endDate) => {
     mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
@@ -17,8 +39,8 @@ const getReceiptBetweenTwoDates = async (starDate,endDate) => {
     }
 }
 
-const getReceiptByMounth = async (month) => {
-    mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+const getReceiptByMonth = async (month) => {
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
         const filter={
             $expr: {
@@ -32,7 +54,7 @@ const getReceiptByMounth = async (month) => {
     }
 }
 const getReceiptByYear = async (year) => {
-    mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+    mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
         const filter={
             
@@ -51,7 +73,7 @@ const createReceipt = async (receipt) => {
     expense.id = id
 
     try {
-        mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+        mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
         const response = await mongoOperations.insertItem(receipt)
         console.log({ response })
         return expense;
@@ -61,4 +83,4 @@ const createReceipt = async (receipt) => {
     }
 }
 
-module.exports={getReceiptBetweenTwoDates,getReceiptByMounth,getReceiptByYear,createReceipt}
+module.exports={getReceiptBetweenTwoDates,getReceiptByMonth,getReceiptByYear,createReceipt,getReceipetByrecepit,getAllRecepits}

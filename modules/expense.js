@@ -1,11 +1,20 @@
 require('dotenv').config()
 const { v4 } = require('uuid')
 const { MongoOperations } = require('../services/mongo/mongo-operations')
-const { errorTypes } = require('../utiles/types')
+const { errorTypes } = require('../utils/types')
 const {MONGO_EXPENSE_COLLECTION,MONGO_ACCOUNTANCY_DB}=process.env
 const mongoOperations = new MongoOperations(MONGO_ACCOUNTANCY_DB)
 
-
+const getAllExpenses = async () => {
+    mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
+    try {
+        const response = await mongoOperations.find({})
+        return response
+    }
+    catch (error) {
+        throw error;
+    }
+}
 
 
 const getExpenseBetweenTwoDates = async (starDate,endDate) => {
@@ -50,27 +59,27 @@ const getExpenseByYear = async (year) => {
     }
 }
 
-const createExpenses = async (customer) => {
+const createExpenses = async (expense) => {
     
-    if (await existcustomerName(customer.customerName)) {
+    if (await existexpenseName(expense.name)) {
         const error = {
-            massege: (`customerName '${customer.customerName}' is not valid`),
+            massege: (`expenseName '${expense.name}' is not valid`),
             type: errorTypes.VALIDATION
         }
         throw error
     }
     const id = v4();
-    customer.id = id
+    expense.id = id
 
     try {
         mongoOperations.Collection = MONGO_EXPENSE_COLLECTION;
-        const response = await mongoOperations.insertItem(customer)
-        return customer;
+        const response = await mongoOperations.insertItem(expense)
+        return expense;
     }
     catch (error) {
         throw error
     }
 }
 
-module.exports={getExpenseBetweenTwoDates,createExpenses,getExpenseByMonth,getExpenseByYear}
+module.exports={getExpenseBetweenTwoDates,createExpenses,getExpenseByMonth,getExpenseByYear,getAllExpenses}
 
