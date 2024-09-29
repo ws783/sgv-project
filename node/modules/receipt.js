@@ -15,11 +15,11 @@ const getAllRecepits = async () => {
         throw error;
     }
 }
-const getReceipetBycustomer = async (customerName,customerPhone) => {
+const getReceipetBycustomer = async (customerName) => {
 
     mongoOperations.Collection = MONGO_RECEPIT_COLLECTION;
     try {
-        const filter={name:customerName,phone:customerPhone}
+        const filter={name:customerName}
         const response = await mongoOperations.find({ filter })
         return response
     }
