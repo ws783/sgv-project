@@ -10,7 +10,7 @@ router.get('/getallrecepits',async(req,res)=>{
     res.status(200).json(recepits)
 })
 
-router.get('/getrecepitbycustomer/:customerName/:customerPhone',async(req,res)=>{    
+router.get('/getrecepitbycustomer/:customerName',async(req,res)=>{    
     const {customerName}=req.params
     const {customerPhone}=req.params
     const receipt=await getReceipetBycustomer(customerName,customerPhone)
