@@ -7,10 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.scss'
 })
-<<<<<<< HEAD
-
-=======
->>>>>>> cd3da706d69c7c1a87699c3ecaee27e09583588c
 export class CustomerComponent {
 
 }

@@ -1,1 +1,45 @@
-<p>expense works!</p>
+<form [formGroup]="myForm" (submit)="save()" id="form">
+
+    <h2>הוצאה חדשה</h2>
+    <p>
+        <label for="">תאריך:</label>
+        <input type="date" formControlName="date">
+        <span *ngIf="getControlErrors('date')?.['required']" class="error">*</span>
+    
+    </p>
+    <p>
+        <label for="">כמות:</label>
+        <input type="number" formControlName="amount">
+        <span *ngIf="getControlErrors('amount')?.['required']" class="error">*</span>
+    </p>
+    <p>
+        <label for="">שם ספק:</label>
+        <input type="text" formControlName="providerName">
+        <span *ngIf="getControlErrors('providerName')?.['required']" class="error">*</span>
+        <span class="error next-line" *ngIf="getControlErrors('providerName')?.['pattern']">
+            some characters are invalid
+        </span>
+
+    </p>
+    <!-- <p>
+      <label for="paymentMethod">אופן תשלום:</label.>
+            
+        <select formControlName="paymentMethod">
+                <option *ngFor="let type of paymentTypesArray" [value]="type">{{ type }}</option>
+            </select>
+            <span *ngIf="getControlErrors('paymentMethod')?.['required']" class="error">*</span>
+        </p> -->
+        
+    <p>
+        <label for="text">פרטים:</label>
+        <input type="" formControlName="details">
+        <span *ngIf="getControlErrors('details')?.['required']" class="error">*</span>
+    </p>
+    <p>
+        <input type="submit" [disabled]="myForm.valid===false">
+    </p>
+ 
+
+
+</form>
+
