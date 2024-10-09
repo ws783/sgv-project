@@ -6,7 +6,6 @@ import { Expense } from '../../modules/interfaces';
 import { paymentTypes } from '../../modules/enums';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-expense',
   standalone: true,
@@ -17,14 +16,14 @@ import { CommonModule } from '@angular/common';
 export class ExpenseComponent {
   
   myForm: FormGroup;
-
+  paymentTypesArray: string[] = Object.values(paymentTypes);
   constructor(private dataService:DataService) {
     this.myForm = new FormGroup({
       date: new FormControl('', [Validators.required]),
       amount: new FormControl('', [Validators.required]),
       providerName: new FormControl('', [Validators.required  ,Validators.pattern('[A-Za-zא-ת .]*')]),
-      // paymentMethod: new FormControl('', [Validators.required]),
-      details: new FormControl('', [Validators.required]),
+      paymentMethod: new FormControl('', [Validators.required]),
+      details: new FormControl('', [Validators.pattern('[A-Za-zא-ת .]*')]),
 
     })
   }
@@ -38,17 +37,17 @@ export class ExpenseComponent {
         date: controls['date'].value,
         amount: controls['amount'].value,
         providerName: controls['providerName'].value,
-        details: controls['details'].value
-        // paymentMethod:controls['paymentMethod'].value
+        details: controls['details'].value,
+        paymentMethod:controls['paymentMethod'].value
  
       }
       
   //     // change
   this.dataService.addexpense(expense).subscribe((response)=>{
-        console.log('Receipt added successfully',response);
+        console.log('expense added successfully',response);
       },
       (error)=>{
-        console.log('Error adding receipt:',error);
+        console.log('Error adding expense:',error);
       }
       )
   

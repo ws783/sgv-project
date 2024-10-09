@@ -1,6 +1,6 @@
 import {paymentTypes} from './enums'
 export interface Customer {
-    id: string;
+    id?: string;
     name: string;
     phone: string;
 }

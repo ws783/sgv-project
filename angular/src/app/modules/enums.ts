@@ -1,5 +1,5 @@
 export enum  paymentTypes{
-    cash,
-    credit,
-    bankTransfer
+    cash="מזומן",
+    credit="כרטיס אשראי",
+    bankTransfer="העברה בנקאית"
     }
