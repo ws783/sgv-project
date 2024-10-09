@@ -3,36 +3,47 @@
     <h2>הנפקת קבלה</h2>
     <p>
         <label for="">שם לקוח:</label>
-        <select formControlName="paymentMethod">
+        <select formControlName="customername">
             <option *ngFor="let customer of allcustomers" [value]="customer">{{customer.name}}</option>
         </select>
-        <input type="button" value="לקוח חדש" >
-    </p>
-    <p>
-        <label for="">תאריך:</label>
-        <input type="date" formControlName="date">
-        <span *ngIf="getControlErrors('date')?.['required']" class="error">*</span>
+        <span *ngIf="getControlErrors('customername')?.['required']" class="error">*</span>
+        <button (click)="newcustomer=true">לקוח חדש</button>
     
-    </p>
+        <div *ngIf="newcustomer">
+            <input type="text" placeholder="שם לקוח" formControlName="newcustomername">
+            <input type="number" placeholder="טלפון" formControlName="newcustomerphone" >
+            <button (click)="addcustomer();newcustomer=false"> אישור</button>
+        </div>
+  
+        <p>
+            <label for="">תאריך:</label>
+            <input type="date" formControlName="date">
+            <span *ngIf="getControlErrors('date')?.['required']" class="error">*</span>
+        </p>
+     
+   
     <p>
         <label for="">כמות:</label>
         <input type="number" formControlName="amount">
-        <!-- <span *ngIf="getControlErrors('amount')?.['required']" class="error">*</span> -->
+        <span *ngIf="getControlErrors('amount')?.['required']" class="error">*</span>
     </p>
 
-    <!-- <p>
-      <label for="paymentMethod">אופן תשלום:</label.>
+    <p>
+      <label for="paymentMethod">אופן תשלום:</label>
             
         <select formControlName="paymentMethod">
                 <option *ngFor="let type of paymentTypesArray" [value]="type">{{ type }}</option>
             </select>
             <span *ngIf="getControlErrors('paymentMethod')?.['required']" class="error">*</span>
-        </p> -->
+        </p>
         
     <p>
         <label for="">פרטים:</label>
         <input type="text" formControlName="details">
         <span *ngIf="getControlErrors('details')?.['required']" class="error">*</span>
+        <span class="error next-line" *ngIf="getControlErrors('details')?.['pattern']">
+            some characters are invalid
+        </span>
     </p>
     <p>
         <input type="submit" [disabled]="myForm.valid===false">

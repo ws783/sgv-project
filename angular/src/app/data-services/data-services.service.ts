@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Customer, Expense, Receipt } from '../modules/interfaces';
 import { paymentTypes } from '../modules/enums';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 
 export class DataService {
 
-    private baseUrl = 'http://127.0.0.1:8080'
+    private baseUrl = 'http://localhost:8080'
 
     constructor(private http: HttpClient) { }
 

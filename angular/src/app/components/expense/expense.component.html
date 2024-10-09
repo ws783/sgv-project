@@ -21,19 +21,23 @@
         </span>
 
     </p>
-    <!-- <p>
-      <label for="paymentMethod">אופן תשלום:</label.>
+     <p>
+      <label for="">אופן תשלום:</label>
             
         <select formControlName="paymentMethod">
                 <option *ngFor="let type of paymentTypesArray" [value]="type">{{ type }}</option>
             </select>
             <span *ngIf="getControlErrors('paymentMethod')?.['required']" class="error">*</span>
-        </p> -->
+        
+        </p> 
         
     <p>
         <label for="text">פרטים:</label>
         <input type="" formControlName="details">
         <span *ngIf="getControlErrors('details')?.['required']" class="error">*</span>
+        <span class="error next-line" *ngIf="getControlErrors('details')?.['pattern']">
+            some characters are invalid
+        </span>
     </p>
     <p>
         <input type="submit" [disabled]="myForm.valid===false">
